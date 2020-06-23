@@ -13,11 +13,14 @@ pipeline {
         }
 
          stage('Building the jar file') {
+        
+           steps {
             print "Building branch: ${BRANCH}"
             print "Using GIT commitID: ${COMMIT_ID}"
             print "Application name:  ${APPLICATION_NAME}"
             print "Version: ${VERSION}"
             bat "mvn clean package -DskipTests package"
+           }
         }
 
         stage ('Testing Stage') {
