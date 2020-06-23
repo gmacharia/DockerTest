@@ -12,7 +12,7 @@ pipeline {
             }
         }
 
-         stage("Building the jar file") {
+         stage('Building the jar file') {
             print "Building branch: ${BRANCH}"
             print "Using GIT commitID: ${COMMIT_ID}"
             print "Application name:  ${APPLICATION_NAME}"
