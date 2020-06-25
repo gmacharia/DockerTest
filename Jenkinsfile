@@ -5,12 +5,10 @@ pipeline {
     }
 
    environment {
-     //get instance of a pom file to get properties
-     def pom = readMavenPom()
 
      // fetch version and application name
-     def VERSION = readMavenPom().getVersion()
-     def APPLICATION_NAME = readMavenPom().getArtifactId()
+      VERSION = readMavenPom().getVersion()
+      APPLICATION_NAME = readMavenPom().getArtifactId()
     }
 
     stages {
