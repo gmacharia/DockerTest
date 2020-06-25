@@ -45,6 +45,8 @@ pipeline {
 
        // build the docker images
         stage('Build docker image') {
+          
+           steps {
             print "Building docker image."
             print "Base image: ${DOCKER_AMD_BASE_IMAGE}."
             print "Image architecture: ${ARCHITECTURE}."
@@ -54,10 +56,12 @@ pipeline {
                         " --build-arg APPLICATION_NAME=${APPLICATION_NAME}-${VERSION} " +
                         " -t ${DOCKER_REPOSITORY_NAME}/${APPLICATION_NAME}:v${VERSION}-${SHORT_COMMIT_ID}-${ARCHITECTURE} .")
             }
+          }
         }
 
         // push image to docker hub repo
         stage('Push image to the repository') {
+         steps {
             print "Pushing image into docker repository"
             print "Image name: cellulant/${APPLICATION_NAME}:v${VERSION}-${SHORT_COMMIT_ID}-${ARCHITECTURE}"
 
@@ -72,6 +76,7 @@ pipeline {
                         """
                 }
             }
+          }
         }
     }
 }
