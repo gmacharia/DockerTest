@@ -4,6 +4,13 @@ pipeline {
         maven 'Maven_3.5.2' 
     }
 
+   def ARCHITECTURE = "amd64";
+   def COMMIT_ID = repository.GIT_COMMIT
+   def BRANCH = repository.GIT_BRANCH
+   def SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
+   def DOCKER_AMD_BASE_IMAGE = pom.properties['docker.image.amd.base']
+   def DOCKER_REPOSITORY_NAME = pom.properties['docker.image.repository']
+
    environment {
 
      // fetch version and application name
@@ -36,9 +43,34 @@ pipeline {
         }
 
 
-        stage ('Deployment Stage') {
-            steps {
-                sh 'mvn deploy'
+       // build the docker images
+        stage('Build docker image') {
+            print "Building docker image."
+            print "Base image: ${DOCKER_AMD_BASE_IMAGE}."
+            print "Image architecture: ${ARCHITECTURE}."
+            container('docker') {
+                // docker build command
+                sh("docker build --build-arg BASE_IMAGE=${DOCKER_AMD_BASE_IMAGE} " +
+                        " --build-arg APPLICATION_NAME=${APPLICATION_NAME}-${VERSION} " +
+                        " -t ${DOCKER_REPOSITORY_NAME}/${APPLICATION_NAME}:v${VERSION}-${SHORT_COMMIT_ID}-${ARCHITECTURE} .")
+            }
+        }
+
+        // push image to docker hub repo
+        stage('Push image to the repository') {
+            print "Pushing image into docker repository"
+            print "Image name: cellulant/${APPLICATION_NAME}:v${VERSION}-${SHORT_COMMIT_ID}-${ARCHITECTURE}"
+
+            container('docker') {
+                withCredentials([[$class          : 'UsernamePasswordMultiBinding',
+                                  credentialsId   : '1747d824-3e68-4669-91e5-fc0933824aa8',
+                                  usernameVariable: 'DOCKER_HUB_USER',
+                                  passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
+                    sh """
+                        docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
+                        docker push cellulant/${APPLICATION_NAME}:v${VERSION}-${SHORT_COMMIT_ID}-${ARCHITECTURE}
+                        """
+                }
             }
         }
     }
