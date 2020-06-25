@@ -19,7 +19,7 @@ pipeline {
             print "Using GIT commitID: ${COMMIT_ID}"
             print "Application name:  ${APPLICATION_NAME}"
             print "Version: ${VERSION}"
-            bat "mvn clean package -DskipTests package"
+            sh "mvn clean package -DskipTests package"
            }
         }
 
