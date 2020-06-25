@@ -4,12 +4,12 @@ pipeline {
         maven 'Maven_3.5.2' 
     }
 
-   def ARCHITECTURE = "amd64";
-   def COMMIT_ID = repository.GIT_COMMIT
-   def BRANCH = repository.GIT_BRANCH
-   def SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
-   def DOCKER_AMD_BASE_IMAGE = pom.properties['docker.image.amd.base']
-   def DOCKER_REPOSITORY_NAME = pom.properties['docker.image.repository']
+    ARCHITECTURE = "amd64";
+    COMMIT_ID = repository.GIT_COMMIT
+    BRANCH = repository.GIT_BRANCH
+    SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
+    DOCKER_AMD_BASE_IMAGE = pom.properties['docker.image.amd.base']
+    DOCKER_REPOSITORY_NAME = pom.properties['docker.image.repository']
 
    environment {
 
