@@ -4,18 +4,17 @@ pipeline {
         maven 'Maven_3.5.2' 
     }
 
-    ARCHITECTURE = "amd64";
-    COMMIT_ID = repository.GIT_COMMIT
-    BRANCH = repository.GIT_BRANCH
-    SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
-    DOCKER_AMD_BASE_IMAGE = pom.properties['docker.image.amd.base']
-    DOCKER_REPOSITORY_NAME = pom.properties['docker.image.repository']
-
    environment {
 
      // fetch version and application name
       VERSION = readMavenPom().getVersion()
       APPLICATION_NAME = readMavenPom().getArtifactId()
+      ARCHITECTURE = "amd64";
+      COMMIT_ID = repository.GIT_COMMIT
+      BRANCH = repository.GIT_BRANCH
+      SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
+      DOCKER_AMD_BASE_IMAGE = pom.properties['docker.image.amd.base']
+      DOCKER_REPOSITORY_NAME = pom.properties['docker.image.repository']
     }
 
     stages {
