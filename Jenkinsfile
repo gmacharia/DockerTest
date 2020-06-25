@@ -11,6 +11,7 @@ pipeline {
       APPLICATION_NAME = readMavenPom().getArtifactId()
     }
 
+    node{
       //checkout the code
       repository = checkout scm
            
@@ -20,6 +21,7 @@ pipeline {
       SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
       DOCKER_AMD_BASE_IMAGE = pom.properties['docker.image.amd.base']
       DOCKER_REPOSITORY_NAME = pom.properties['docker.image.repository']
+   }
 
     stages {
         stage ('Compile Stage') {
