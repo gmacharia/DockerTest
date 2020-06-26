@@ -16,6 +16,10 @@
 
     <properties>
         <java.version>11</java.version>
+        <docker.image.amd.base>openjdk:11.0.3-jdk</docker.image.amd.base>
+        <!-- The base image for powerpc machines-->
+        <docker.image.ppc64le.base>ppc64le/openjdk:11.0.3-jdk-slim</docker.image.ppc64le.base>
+        <docker.image.repository>cellulant</docker.image.repository>
     </properties>
 
     <dependencies>               
