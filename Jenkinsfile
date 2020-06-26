@@ -4,11 +4,12 @@ pipeline {
         maven 'Maven_3.5.2' 
     }
 
-    repository = checkout scm
+    checkout scm: [
 
     // source control variables
-    COMMIT_ID = repository.GIT_COMMIT
-    BRANCH = repository.GIT_BRANCH
+    COMMIT_ID = GIT_COMMIT
+    BRANCH = GIT_BRANCH
+   ]
 
    environment {
 
