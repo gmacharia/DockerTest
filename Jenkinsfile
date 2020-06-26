@@ -4,17 +4,17 @@ pipeline {
         maven 'Maven_3.5.2' 
     }
 
+    repository = checkout scm
+
+    // source control variables
+    COMMIT_ID = repository.GIT_COMMIT
+    BRANCH = repository.GIT_BRANCH
+
    environment {
 
      // fetch version and application name
       VERSION = readMavenPom().getVersion()
       APPLICATION_NAME = readMavenPom().getArtifactId()
-
-      repository = checkout scm
-
-      // source control variables
-      COMMIT_ID = repository.GIT_COMMIT
-      BRANCH = repository.GIT_BRANCH
 
       ARCHITECTURE = "amd64";
       SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
