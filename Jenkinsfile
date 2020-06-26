@@ -71,7 +71,7 @@ pipeline {
 
             container('docker') {
                 withCredentials([[$class          : 'UsernamePasswordMultiBinding',
-                                  credentialsId   : '1747d824-3e68-4669-91e5-fc0933824aa8',
+                                  credentialsId   : 'b4c0bd02-cd21-4bc8-9e8b-e6a30b0ad5ae',
                                   usernameVariable: 'DOCKER_HUB_USER',
                                   passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
                     sh """
