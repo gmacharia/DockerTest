@@ -13,7 +13,7 @@ pipeline {
       repository = checkout scm
       ARCHITECTURE = "amd64";
       SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
-      DOCKER_AMD_BASE_IMAGE = pom.properties['docker.image.amd.base']
+      DOCKER_AMD_BASE_IMAGE = readMavenPom().getProperties().getProperty('docker.image.amd.base')
       DOCKER_REPOSITORY_NAME = readMavenPom().getProperties().getProperty('docker.image.repository')
 
       POM_APP = readMavenPom().getProperties().getProperty('app')
