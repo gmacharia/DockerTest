@@ -4,13 +4,6 @@ pipeline {
         maven 'Maven_3.5.2' 
     }
 
-    checkout scm: [
-
-    // source control variables
-    COMMIT_ID = GIT_COMMIT
-    BRANCH = GIT_BRANCH
-   ]
-
    environment {
 
      // fetch version and application name
@@ -18,7 +11,6 @@ pipeline {
       APPLICATION_NAME = readMavenPom().getArtifactId()
 
       ARCHITECTURE = "amd64";
-      SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
       DOCKER_AMD_BASE_IMAGE = readMavenPom().getProperties().get('docker.image.amd.base')
       DOCKER_REPOSITORY_NAME = readMavenPom().getProperties().getProperty('docker.image.repository')
    }
@@ -66,6 +58,14 @@ pipeline {
         // push image to docker hub repo
         stage('Push image to the repository') {
          steps {
+
+             checkout scm
+
+            script {
+                COMMIT_ID = GIT_COMMIT
+                BRANCH = GIT_BRANCH
+            }
+
             print "Pushing image into docker repository"
             print "Image name: cellulant/${APPLICATION_NAME}:v${VERSION}-${SHORT_COMMIT_ID}-${ARCHITECTURE}"
 
