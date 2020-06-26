@@ -9,13 +9,11 @@ pipeline {
      // fetch version and application name
       VERSION = readMavenPom().getVersion()
       APPLICATION_NAME = readMavenPom().getArtifactId()
-      
+
       ARCHITECTURE = "amd64";
       SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
       DOCKER_AMD_BASE_IMAGE = readMavenPom().getProperties().get('docker.image.amd.base')
       DOCKER_REPOSITORY_NAME = readMavenPom().getProperties().getProperty('docker.image.repository')
-
-      POM_APP = readMavenPom().getProperties().getProperty('app')
    }
 
     stages {
