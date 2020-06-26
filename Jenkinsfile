@@ -46,12 +46,10 @@ pipeline {
             print "Building docker image."
             print "Base image: ${DOCKER_AMD_BASE_IMAGE}."
             print "Image architecture: ${ARCHITECTURE}."
-            container('docker') {
                 // docker build command
                 sh("docker build --build-arg BASE_IMAGE=${DOCKER_AMD_BASE_IMAGE} " +
                         " --build-arg APPLICATION_NAME=${APPLICATION_NAME}-${VERSION} " +
                         " -t ${DOCKER_REPOSITORY_NAME}/${APPLICATION_NAME}:v${VERSION}-${SHORT_COMMIT_ID}-${ARCHITECTURE} .")
-            }
           }
         }
 
