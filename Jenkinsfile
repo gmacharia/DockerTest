@@ -10,6 +10,12 @@ pipeline {
       VERSION = readMavenPom().getVersion()
       APPLICATION_NAME = readMavenPom().getArtifactId()
 
+      repository = checkout scm
+
+      // source control variables
+      COMMIT_ID = repository.GIT_COMMIT
+      BRANCH = repository.GIT_BRANCH
+
       ARCHITECTURE = "amd64";
       SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
       DOCKER_AMD_BASE_IMAGE = readMavenPom().getProperties().get('docker.image.amd.base')
