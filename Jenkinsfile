@@ -75,7 +75,6 @@ pipeline {
             print "Pushing image into docker repository"
             print "Image name: cellulant/${APPLICATION_NAME}:v${VERSION}-${SHORT_COMMIT_ID}-${ARCHITECTURE}"
 
-            container('docker') {
                 withCredentials([[$class          : 'UsernamePasswordMultiBinding',
                                   credentialsId   : 'b4c0bd02-cd21-4bc8-9e8b-e6a30b0ad5ae',
                                   usernameVariable: 'DOCKER_HUB_USER',
@@ -85,7 +84,6 @@ pipeline {
                         docker push cellulant/${APPLICATION_NAME}:v${VERSION}-${SHORT_COMMIT_ID}-${ARCHITECTURE}
                         """
                 }
-            }
           }
         }
     }
