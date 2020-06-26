@@ -10,21 +10,16 @@ pipeline {
       VERSION = readMavenPom().getVersion()
       APPLICATION_NAME = readMavenPom().getArtifactId()
 
+      COMMIT_ID = ""
+      BRANCH = ""
+      SHORT_COMMIT_ID = ""
+
       ARCHITECTURE = "amd64";
       DOCKER_AMD_BASE_IMAGE = readMavenPom().getProperties().get('docker.image.amd.base')
       DOCKER_REPOSITORY_NAME = readMavenPom().getProperties().getProperty('docker.image.repository')
    }
 
     stages {
-
-         checkout scm
-
-            script {
-                COMMIT_ID = GIT_COMMIT
-                BRANCH = GIT_BRANCH
-                SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
-
-            }
 
         stage ('Compile Stage') {
 
@@ -53,6 +48,16 @@ pipeline {
        // build the docker images
         stage('Build docker image') {          
            steps {
+
+           checkout scm
+
+            script {
+                COMMIT_ID = GIT_COMMIT
+                BRANCH = GIT_BRANCH
+                SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
+
+            }
+
             print "Building docker image."
             print "Base image: ${DOCKER_AMD_BASE_IMAGE}."
             print "Image architecture: ${ARCHITECTURE}."
