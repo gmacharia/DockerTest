@@ -16,6 +16,16 @@ pipeline {
    }
 
     stages {
+
+         checkout scm
+
+            script {
+                COMMIT_ID = GIT_COMMIT
+                BRANCH = GIT_BRANCH
+                SHORT_COMMIT_ID = "${COMMIT_ID[0..5]}"
+
+            }
+
         stage ('Compile Stage') {
 
             steps {
@@ -56,13 +66,6 @@ pipeline {
         // push image to docker hub repo
         stage('Push image to the repository') {
          steps {
-
-             checkout scm
-
-            script {
-                COMMIT_ID = GIT_COMMIT
-                BRANCH = GIT_BRANCH
-            }
 
             print "Pushing image into docker repository"
             print "Image name: cellulant/${APPLICATION_NAME}:v${VERSION}-${SHORT_COMMIT_ID}-${ARCHITECTURE}"
